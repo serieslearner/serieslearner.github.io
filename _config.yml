@@ -19,11 +19,18 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Young Tech Blog
+longtitle: Young Tech Blog
+author: Young Kim
 email: serieslearner@naver.com
 description: Java Web Fullstack Frontend Backend Techblog
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://serieslearner.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+rss: RSS
+
 github_username: serieslearner
+
+
+
 
 # Build settings
 remote_theme: sighingnow/jekyll-gitbook
@@ -31,6 +38,7 @@ plugins:
   - jekyll-feed
   - jekyll-readme-index
   - jemoji
+  - jekyll-seo-tag
 
 syntax_highlighter_style: colorful
 
