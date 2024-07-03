@@ -11,10 +11,6 @@ categories: jekyll github gitpage blog
 #### 4
 ##### 5
 ###### 6
-####### 7
-######## 8
-######### 9
-########## 10
 
 > ##### TIP
 > Blue Box
@@ -36,8 +32,8 @@ this is markdown
 this is yaml
 ```
 
-Lists(THIS IS NOT A HEAD)
--------------
+List
+-----
 
 # 1
 ## 2
@@ -48,30 +44,21 @@ compare the size
 
 Here's the list
 - 1
-- 2
++ 2
     - 3
 
-Here's the orderedlist
-1) first
-2) second
-    3) third
 
 Here's the orderedList2
 1. first
 2. second
-    3. third
-    1) first again?
+    1. third
+    2. first again?
 
-Here's the list2
-+ 1
-+ 2
-+ 3
-+ 4
 
 [This is hyperlink][1]
 This is a footnote[^1]
 Wide Table
-----
+-----
 
 <div class="table-wrapper" markdown="block">
 
@@ -90,5 +77,5 @@ When $a \ne 0$, there are two solutions to $ax^2 + bx + c = 0$ and they are
 $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
 
 
-[1]: www.naver.com
-[^1]: www.naver.com
+[1]: https://www.naver.com
+[^1]: https://www.naver.com

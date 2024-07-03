@@ -1,1 +1,0 @@
-this is group 3's first item

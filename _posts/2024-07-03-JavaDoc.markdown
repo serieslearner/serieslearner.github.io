@@ -1,0 +1,199 @@
+---
+layout: post
+date:   2024-07-03 12:00:00 +0900
+categories: Java JDK21 Documentation 기술문서
+title: "JDK 21 버전 기술문서"
+permalink: /JDK21/
+---
+> ##### Hello World
+> 안녕하세요! 이 문서는 [자바 JDK 1.21 공식 문서](https://docs.oracle.com/en/java/javase/21/docs/api/index.html)를 기본으로 번역했으며, 가독성을 위해 내용을 가감하거나 필요한 경우 약간의 설명을 덧붙였습니다.
+{: .block-tip }
+
+# java.base
+## java.io
+데이터 스트림과 직렬화, 파일 시스템을 통한 시스템의 입출력을 담당합니다.  
+달리 명시된 경우를 제외하고는 기본적으로 클래스나 인터페이스의 생성자나 매소드로 `null`을 넘기면 `NullPointerException`이 발생합니다.  
+
+### BufferedInputSystem
+> public class BufferedInputSystem extends FilterInputStream
+
+`BufferedInputStream`은 입력 스트림에서 버퍼를 제공해 줍니다. `BufferedInputStream`은 내부 버퍼 역할을 할 배열을 생성됩니다. 스트림의 바이트가 읽히면 입력 스트림에서 버퍼로 바이트가 넘어와 버퍼를 다시 채웁니다.
+
+> ##### 버전
+> 자바 1.0 버전부터 지원합니다.
+{: .block-warning }
+
+#### 필드
+##### `buf`
+> protected volatile byte[] buf
+
+데이터가 저장될 버퍼 배열입니다. 필요에 따라 다른 크기를 가진 배열로 바꿀 수 있습니다.
+##### `count`
+> protected int count
+
+버퍼의 크기입니다.
+##### `pos`
+> protected int pos
+
+다음으로 읽을 바이트의 인덱스를 가리킵니다. 
+##### `markpos`
+> protected int markpos
+
+마지막으로 `mark` 매소드가 호출되었을 때의 `pos`값을 저장합니다. 만일 `mark` 메소드가 호출된 적이 없다면 `-1`을 반환합니다.
+##### `marklimit`
+> protected int marklimit
+
+`reset` 메소드에 대한 호출이 실패하기 전에 `mark` 메소드가 호출한 후 앞쪽으로 읽기가 허용되는 최대치 값입니다.
+
+#### 생성자
+> public BufferedInputStream(InputStream in)
+
+`BufferedInputStream`을 생성해 추후 사용될 입력 스트림 `in`을 저장합니다. 생성된 내부 버퍼 배열은 `buf`필드에 저장됩니다.
+
+> public BufferedInputStream(InputStream in, int size)
+
+`size` 크기의 `BufferedInputStream`을 생성합니다. 기타 내용은 이상과 같습니다.
+#### 메소드
+##### `read`
+> public int read() throws IOException
+
+데이터의 다음 바이트를 반환합니다. 스트림에 끝에 도달하면 `-1`을 반환합니다.
+> public int read(byte[] b, int off, int len) throws IOException
+
+바이트 배열 버퍼 `b`를 `off` 인덱스부터 `len`개 만큼 읽습니다.  
+편의상, 스트림의 `read`메소드를 반복하여 가능한 많은 바이트를 읽으려고 시도합니다. 그러다가 다음 조건 중 하나라도 만족하면 멈춥니다.
+- `len`만큼 읽었을 때.
+- 스트림의 `read` 메소드가 `-1`을 리턴할 때(파일의 끝).
+- 스트림의 `available` 메소드가 `0`을 리턴할 때(추가적인 입력 요청이 막혔을 때).
+
+이 메소드는 실제로 읽은 바이트의 수를 반환합니다. 단, 파일의 끝까지 읽었을 경우 `-1`을 반환합니다.
+
+##### `skip`
+> public long skip(long n) theows IOException
+
+`n` 바이트 만큼 건너뜁니다. 실제로 건너 뛴 만큼의 바이트 수를 반환합니다.
+
+##### `available`
+> public int available() throws IOException
+
+입력 스트림에서 다른 메소드로 인해 막히지 않고 읽을 수 있는 바이트의 수를 어림잡아 반환합니다.
+
+##### `mark`
+> public void mark(int readlimit)
+
+입력 스트림에서 현재 위치를 표시합니다. 이 메소드가 호출되고나서 `reset` 메소드가 불려지면 마지막으로 표시된 지점으로 옮기게 됩니다. 이를 통해 `read` 메소드가 같은 바이트를 다시 읽을 수 있게 합니다.  
+파라미터로 주어지는 `readlimit`은 표시된 위치가 인식 불가능해지기 전에 읽을 수 있는 바이트 최대값입니다.
+
+##### `reset`
+> public void reset() throws IOException
+
+마지막으로 `mark` 매소드가 불린 자리로 입력 스트림의 위치를 바꿉니다. `markpos`가 -1이라면(`mark`메소드가 불려진 적이 없거나 인식 불가능한 위치로 옮겨졌다면) `IOException` 에러가 발생합니다.
+
+##### `markSupported`
+> public boolean markSupported()
+
+입력 스트림이 `mark`와 `reset` 메소드를 지원하는지 확인합니다. `BufferedInputStream`이라면 `true`를 반환합니다.
+
+##### `close`
+> public void close() throws IOException
+
+입력 스트림을 닫고 이와 관련된 모든 시스템 자원을 헤제합니다. `close()` 메소드가 불려진 이후에는 `read()`, `available()`, `reset()`, `skip()` 메소드가 `IOException` 에러를 발생시킵니다. 이미 닫힌 입력 스트림을 다시 닫으면 아무일도 일어나지 않습니다.
+
+### BufferedOutputStream
+> public class BufferedOutputStream extends FilterOutputStream
+
+`BufferedOutputStream`은 버퍼가 있는 출력 스트림을 구현합니다. 이러한 출력 스트림을 설정하면 매 바이트 쓰기마다 기저에 깔린 시스템에 호출하지 않고도 어플리케이션이 출력 스트림에 바이트를 적을 수 있습니다. 
+
+> ##### 버전
+> 자바 1.0 버전부터 지원합니다.
+{: .block-warning }
+
+#### 필드
+##### `buf`
+> protected byte[] buf
+
+데이터가 저장될 내부 버퍼입니다.
+
+##### `count`
+> protected int count
+
+버퍼 안에서 유효한 바이트 데이터의 개수입니다.
+
+#### 생성자
+> public BufferedOutputStream(OutputStream out)
+
+사용하는 출력 스트림에 데이터를 쓰기 위해 버퍼가 있는 새 출력 스트림을 생성합니다.
+
+> public BufferedOutputStream(OutputStream out, int size)
+
+`size` 크기의 `BufferedOutputStream`을 생성합니다. 기타 내용은 이상과 같습니다.
+
+#### 매소드
+##### `write`
+> public void write(int b) throws IOException
+
+버퍼가 있는 출력 스트림에 바이트를 씁니다. 매개변수가 int인 이유는 쓸 값을 ASCII 코드 값으로 받기 때문입니다.
+
+> public void write(byte[] b, int off, int len) throws IOException
+
+바이트 배열 `b`를 `off` 인덱스부터 `len`개 만큼 씁니다.
+
+##### `flush`
+> public void flush() throws IOException
+
+버퍼가 있는 출력 스트림을 비웁니다.
+
+### BufferedReader
+> public class BufferedReader extends Reader
+
+입력 스트림에서 텍스트를 읽습니다.
+
+> ##### 버전
+> 자바 1.1 버전부터 지원합니다.
+{: .block-warning }
+
+#### 생성자
+> public BufferedReader(Reader in, int sz)
+
+`sz`크기의 `in`을 사용하는 입력 버퍼를 생성합니다.
+
+> public BufferedReader(Reader in)
+
+기본값인 크기를 갖는 `in` 을 사용하는 입력 버퍼를 생성합니다.
+
+#### 매소드
+##### `read`
+> public int read() throws IOException
+
+글자 하나를 읽습니다. 읽은 글자를 0 ~ 65535 사이의 정수로 반환합니다. 스트림의 끝에 도달하면 -1을 반환합니다.
+
+> public int read(char[] cbuf, int off, int len) throws IOException
+
+`cbuf` 배열에 담긴 글자를 `off`인덱스부터 `len` 길이만큼 읽습니다.  
+
+편의상, 스트림의 `read`메소드를 반복하여 가능한 많은 바이트를 읽으려고 시도합니다. 그러다가 다음 조건 중 하나라도 만족하면 멈춥니다.
+- `len`만큼 읽었을 때.
+- 스트림의 `read` 메소드가 `-1`을 리턴할 때(파일의 끝).
+- 스트림의 `available` 메소드가 `0`을 리턴할 때(추가적인 입력 요청이 막혔을 때).  
+
+이 메소드는 실제로 읽은 바이트의 수를 반환합니다. 단, 파일의 끝까지 읽었을 경우 `-1`을 반환합니다.
+
+##### `readLine`
+> public String readLine() throws IOException
+
+한 줄의 텍스트를 읽습니다. 한 줄이란 `\n`, `\r`, 혹은 `\n\r`, 또는 파일의 끝에 도달함으로서 구분됩니다.
+
+##### `ready`
+> public boolean ready() throws IOException
+
+해당 스트림이 읽힐 준비가 되었는지 말해줍니다. 버퍼가 비어있지 않거나 스트림이 준비가 되었으면 읽힐 준비가 된 것입니다.
+
+##### `markSupported`
+> public boolean markSupported()
+
+해당 스트림이 `mark()` 메소드를 지원하는지 말해줍니다.
+
+##### `mark`
+> public void mark(int readAheadLimit) throws IOException
+
+스트림의 현재 위치를 표시합니다. 이어지는 `reset()` 메소드 호출은 스트림을 표시된 위치로 옮기려 시도할 것입니다.
