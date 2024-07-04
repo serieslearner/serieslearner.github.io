@@ -28,7 +28,7 @@ permalink: /JDK21/
 > protected volatile byte[] buf
 
 데이터가 저장될 버퍼 배열입니다. 필요에 따라 다른 크기를 가진 배열로 바꿀 수 있습니다.
-##### `count`
+##### `count`z
 > protected int count
 
 버퍼의 크기입니다.
@@ -196,4 +196,79 @@ permalink: /JDK21/
 ##### `mark`
 > public void mark(int readAheadLimit) throws IOException
 
-스트림의 현재 위치를 표시합니다. 이어지는 `reset()` 메소드 호출은 스트림을 표시된 위치로 옮기려 시도할 것입니다.
+스트림의 현재 위치를 표시합니다. 이어지는 `reset()` 메소드 호출은 스트림을 표시된 위치로 옮기려 시도할 것입니다.  
+`readAheadLimit`을 지정해 `reset` 메서드가 이 값 이상 읽지 읽으려 하면 작동하지 않게 합니다.
+
+##### `reset`
+> public void reset() throws IOException
+
+가장 최근에 표시된 위치로 스트림을 위치시ㅣㅂ니다.
+
+##### `close`
+> public void close() throws IOException
+
+스트림을 닫고 이와 관련된 모든 시스템 자원을 헤제합니다. `close()` 메소드가 불려진 이후에는 `read()`, `ready()`, `mark()`, `reset`, `skip()` 메소드가 `IOException` 에러를 발생시킵니다. 이미 닫힌 스트림을 다시 닫으면 아무일도 일어나지 않습니다.
+
+##### `lines`
+> public Steram<String> lines()
+
+해당 BufferedReader에서 읽어진 줄인 스트림을 반환합니다. 스트림은 지연 연산됩니다, 즉 터미널 스트림 동작(terminal stream operation)이 진행되는 동안 읽기가 발생할 수 있습니다. 이 떄 읽는 주체가 작동하면 터미널 스트림 동작의 결과는 `undefined`가 될 것입니다. 터미널 스트림 동작이 실행된 이후에는 읽는 주체가 다음 글자나 줄을 읽을 특정한 위치에 있을 것이라고 보장할 수 없습니다.  
+
+`BufferedReader`에 접근할 때 `IOException`이 발생한다면 이 메소드는 `UncheckedIOException`에 래핑됩니다. `BufferedReader`가 이미 닫혔다면 이 메소드는 스트림을 반환할 것이며, `BufferedReader`에 작동하는 어떤 동작도 `UncheckedIOExcption`을 일으킬 것입니다.
+
+> ##### 버전
+> 자바 1.8 버전부터 지원합니다.
+{: .block-warning }
+
+### BufferedWriter
+> public class BUfferedWrited extends Writer
+
+출력 스트림에 텍스트를 씁니다. 효율적으로 글자, 배열, 스트링이 적힐 수 있도록 하기 위해 버퍼를 사용합니다. 따로 지정해주지 않는 한 버퍼의 사이즈는 기본값으로 지정됩니다. 이 사이즈는 충분히 크기 때문에 대부분의 작업에 적합할 것입니다.  
+모든 플랫폼이 `\n`을 줄의 끝에 쓰는 것은 아닙니다. 하지만 `newLine()` 매소드는 시스템 속성인 `line.separator`에 정의된 바를 줄 구분자로 사용합니다. 그렇기에 이 메소드는 새 줄을 나타내는 줄 구분 문자를 적을 때 특히나 유용합니다.  
+일반적으로 쓰는 주체는 즉시 글자나 바이트 스트림으로 출력 값을 전송합니다. 프롬프트 출력이 요구되지 않는 한 `BufferedWriter`을 `FileWriters` 나 `OutputStreamWriters`와 같이 `write()` 동작이 비용이 많이 드는 쓰는 주체에 래핑하는 것이 좋을 것입니다. 다음은 예시입니다.
+```Java
+PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("foo.out")));
+```
+이 예시에서 `BufferedWriter`은 `PrintWriter`의 출력을 파일에 버퍼를 만듭니다.
+
+> ##### 버전
+> 자바 1.1 버전부터 지원합니다.
+{: .block-warning }
+
+#### 생성자
+> public BufferedWriter(Writer out)
+
+기본 사이즈의 출력 버퍼를 사용하는 글자 출력 스트림을 만듭니다.
+
+> public BufferedWriter(Writer out, int sz)
+
+`sz` 사이즈의 출력 버퍼를 사용하는 글자 출력 스트림을 만듭니다.
+
+#### 매소드
+##### `write`
+> public void write(int c) throws IOException
+
+글자 하나를 씁니다. 매개변수가 int인 이유는 쓸 값을 ASCII 코드 값으로 받기 때문입니다.
+
+> public void write(char[] cbuf, int off, int len) throws IOException
+
+`char` 배열 `cbuf`를 `off` 인덱스부터 `len`개 만큼 씁니다.
+
+> public void write(String s, int off, int len) throws IOException
+
+String `s`를 `off` 인덱스부터 `len`개 만큼 씁니다. `len`이 음수이거나 `off` + `len`이 음수이면 아무것도 쓰지 않습니다.
+
+##### `newLine`
+> public void newLine() throws IOException
+
+시스템 속성 `line.separator`에 정의된 줄 구분자를 씁니다.
+
+##### `flush`
+> public void flush() throws IOexception
+
+스트림을 비웁니다.
+
+##### `close`
+> public void close() throws IOException
+
+스트림을 닫습니다, 이 때 가장 먼저 스트림을 비웁니다. 스트림이 닫힌 이후에 `write()`이나 `flush()` 메소드는 `IOException`을 일으킬 것입니다. 이미 닫힌 스트림을 다시 닫으면 아무 일도 일어나지 않습니다.
