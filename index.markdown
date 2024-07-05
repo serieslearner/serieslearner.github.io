@@ -29,3 +29,7 @@ title: "About Author"
 **2024.07.04**: JDK 21 버전 기술문서 작업중
 - `java.io.BufferedReader` 추가
 - `java.io.BufferedWriter` 추가
+
+**2024.07.05**: JDK 21 버전 기술문서 작업중
+- `java.io.ByteArrayInputStream` 추가
+- `java.io.ByteArrayOutputStream` 추가
