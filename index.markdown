@@ -33,3 +33,7 @@ title: "About Author"
 **2024.07.05**: JDK 21 버전 기술문서 작업중
 - `java.io.ByteArrayInputStream` 추가
 - `java.io.ByteArrayOutputStream` 추가
+
+**2024.07.08**: JDK 21 버전 기술문서 작업중
+- `java.io.CharArrayReader` 추가
+- `java.io.CharArrayWriter` 추가

@@ -28,7 +28,7 @@ permalink: /JDK21/
 > protected volatile byte[] buf
 
 데이터가 저장될 버퍼 배열입니다. 필요에 따라 다른 크기를 가진 배열로 바꿀 수 있습니다.
-##### `count`z
+##### `count`
 > protected int count
 
 버퍼의 크기입니다.
@@ -207,7 +207,7 @@ permalink: /JDK21/
 ##### `close`
 > public void close() throws IOException
 
-스트림을 닫고 이와 관련된 모든 시스템 자원을 헤제합니다. `close()` 메소드가 불려진 이후에는 `read()`, `ready()`, `mark()`, `reset`, `skip()` 메소드가 `IOException` 에러를 발생시킵니다. 이미 닫힌 스트림을 다시 닫으면 아무일도 일어나지 않습니다.
+스트림을 닫고 이와 관련된 모든 시스템 자원을 헤제합니다. `close()` 메소드가 불려진 이후에는 `read()`, `ready()`, `mark()`, `reset()`, `skip()` 메소드가 `IOException` 에러를 발생시킵니다. 이미 닫힌 스트림을 다시 닫으면 아무일도 일어나지 않습니다.
 
 ##### `lines`
 > public Steram<String> lines()
@@ -382,6 +382,16 @@ I/O 에러가 발생한다면 즉시 이 스트림을 닫는 것을 권장합니
 `ByteArrayInputStream`에 이 메소드는 아무런 작동도 하지 않습니다. 스트림이 닫힌 뒤에 이 메소드가 호출되더라도 `IOException`을 일으키지 않습니다.
 
 ### ByteArrayOutputStream
+> public class ByteArrayOutputStream extends OutputStream
+
+이 클래스는 데이터가 바이트 배열로 쓰여질 수 있도록 출력 스트림을 만듭니다. 데이터가 여기에 쓰여지면 버퍼의 크기는 자동으로 증가합니다. 데이터는 `toByteArray()`와 `toString()` 메소드로 되돌려받을 수 있습니다.  
+
+이 클래스를 닫는 것은 아무런 작동도 하지 않습니다. IOExcpeion을 발생시키지 않고 스트림이 닫힌 이후에만 이 클래스의 메소드들이 불릴 수 있습니다.
+
+> ##### 버전
+> 자바 1.0 버전부터 지원합니다.
+{: .block-warning }
+
 #### 필드
 ##### `buf`
 > protected byte[] buf
@@ -466,3 +476,203 @@ I/O 에러가 발생한다면 즉시 이 스트림을 닫는 것을 권장합니
 > public vodi close() throws IOException
 
 `ByteArrayOutputStream`에 이 메소드는 아무런 작동도 하지 않습니다. 스트림이 닫힌 뒤에 이 메소드가 호출되더라도 `IOException`을 일으키지 않습니다.
+
+### CharArrayReader
+> public class CharArrayReader extends Reader
+
+글자 입력 시스템에서 사용될 수 있는 글자 버퍼입니다.
+
+> ##### 버전
+> 자바 1.1 버전부터 지원합니다.
+{: .block-warning }
+
+#### 필드
+##### `buf`
+> protected char[] buf
+
+글자 버퍼입니다.
+
+##### `pos`
+> protected int pos
+
+버퍼의 현재 위치입니다.
+
+##### `markedPos`
+> protected int markedPos
+
+버퍼에 표시된 위치입니다.
+
+##### `count`
+> protected int count
+
+이 버퍼의 끝 인덱스입니다. 이 인덱스 너머에는 어떤 유효한 데이터도 없습니다.
+
+#### 생성자
+> public CharArrayReader(char[] buf)
+
+char 배열로부터 `CharArrayReader`을 생성합니다.
+
+> public CharArrayReader(char[] buf, int offset, int length)
+
+char 배열로부터 `CharArrayReader`을 생성합니다.  
+`offset`부터 읽기 시작해 `length`나 `buf.length - offset` 둘 중 작은 값만큼 읽어들입니다.
+
+#### 매소드
+##### `read`
+> public int read() throws IOException
+
+0 ~ 65535 (0x00 ~ 0xffff)을 나타내는 한 글자를 읽습니다. 만일 스트림의 끝이라면 -1을 반환합니다.
+
+> public int read(char[] cbuf, int off, int len) throws IOException
+
+배열의 부분으로 글자를 읽습니다. `len`이 0이라면 어떤 글자도 읽히지 않고 0이 반환됩니다. 그렇지 않다면 적어도 한 글자를 읽으려고 시도합니다. 스트림이 끝이라 더 이상 읽을 글자가 없으면 -1이 반환됩니다. 읽힌 글자는 `cbuf`에 저장됩니다. 일반적으로 읽은 글자의 수를 반환합니다.
+
+##### `skip`
+> public long skip(long n) throws IOExcpeption
+
+글자를 건너 뜁니다. 이미 스트림의 끝에 닿았다면 어떤 글자도 건너 뛰어지지 않으며 0을 반환합니다.
+
+매개변수 `n`은 음수일 수 있습니다. 그런 경우 이 메소드는 아무 일도 하지 않고 0을 반환합니다. 일반적으로 건너 뛴 글자의 수를 반환합니다.
+
+##### `ready`
+> public boolean ready() throws IOException
+
+`read()`가 다른 매소드에 막히지 않을 상항이 보장되면 `True`를, 그렇지 않다면 `False`를 반환합니다. 그렇지만 `False`를 반환하는 것이 반드시 `read()`가 막힐 것이라는 뜻은 아닙니다.
+
+##### `markSupported`
+> public boolean markSupported()
+
+`mark()`가 지원되는지 알려주는 메소드입니다. 반드시 스트림이 `mark()`를 지원할 때에만 `True`를 반환합니다.
+
+##### `mark`
+> public void mark(int readAheadLimit) throws IOException
+
+스트림에 현재 위치를 표시합니다.  
+`readAheadLimit`은 본래 표시하면서 동시에 읽힐 수 있는 문자의 수를 제한하지만, 이 스트림의 입력이 문자 배열에서 오기 때문에 사실상의 제한이 없습니다. 따라서 이 매개변수는 아무런 일도 하지 않습니다.
+
+##### `reset`
+> public void reset() throws IOException
+
+스트림을 가장 최근에 표시된 위치로, 표시된 적이 없다면 처음 위치로 초기화합니다.
+
+##### `close`
+> public void close()
+
+스트림을 닫고 이와 관련된 모든 시스템 자원을 헤제합니다. `close()` 메소드가 불려진 이후에는 `read()`, `ready()`, `mark()`, `reset()`, `skip()` 메소드가 `IOException` 에러를 발생시킵니다. 이미 닫힌 스트림을 다시 닫으면 아무일도 일어나지 않습니다. 이 메소드는 또 다른 쓰레드가 이 `CharArrayReader`의 실행을 막고 있는 동안 다른 매소드의 실행을 막습니다.
+
+### CharArrayWriter
+> public class CharArrayWriter extends Writer
+
+이 클래스는 Writer로 사용될 수 있는 글자 버퍼를 생성합니다. 데이터가 여기에 쓰여지면 버퍼의 크기는 자동으로 증가합니다. 데이터는 `toCharArray()`와 `toString()` 메소드로 되돌려받을 수 있습니다.  
+
+이 클래스를 닫는 것은 아무런 작동도 하지 않습니다. IOExcpeion을 발생시키지 않고 스트림이 닫힌 이후에만 이 클래스의 메소드들이 불릴 수 있습니다.
+
+> ##### 버전
+> 자바 1.1 버전부터 지원합니다.
+{: .block-warning }
+
+#### 필드
+##### `buf`
+> protected char[] buf
+
+데이터가 저장될 버퍼입니다.
+
+##### `count`
+> protected int count
+
+버퍼 안에 있는 글자의 개수입니다.
+
+#### 생성자
+> public CharArrayWriter()
+
+새 `CharArrayWriter`을 생성합니다.
+
+> public CharArrayWriter(int initialSize)
+
+초기 크기을 가진 `CharArrayWriter`을 생성합니다.
+
+#### 매소드
+##### `write`
+> public void write(int c)
+
+버퍼에 글자를 씁니다.
+
+> public void write(char[] c, int off, int len)
+
+버퍼에 글자 데이터 `c`를 `off` 위치부터 `len`개 만큼 씁니다.
+
+> public void write(String str, int off, int len)
+
+버퍼에 글자 데이터 `str`을 `off` 위치부터 `len`개 만큼 씁니다.
+
+##### `writeTo`
+> public void writeTo(Writer out) throws IOException
+
+다른 글자 스트림 `out`으로 버퍼에 담긴 콘텐츠를 씁니다.
+
+##### `append`
+> public CharArrayWriter append(CharSequence csq)
+
+이 `CharArrayWriter`에 일련의 글자 `csq`를 추가합니다. 만약 `csq`가 `null`이라면 글자 그대로 "null"이 쓰여집니다. 이 메소드는 다음 코드와 똑같이 작동합니다.
+
+```Java
+out.write(csq.toString())
+```
+
+> ##### 버전
+> 자바 1.5 버전부터 지원합니다.
+{: .block-warning }
+
+> public CharArrayWriter append(CharSequence csq, int start, int end)
+
+이 `CharArrayWriter`에 일련의 글자 `csq`의 일부분을 추가합니다. 만약 `csq`가 `null`이라면 글자 그대로 "null"이 쓰여집니다. `csq`가 `null`이 아니라면 다음 코드와 똑같이 작동합니다.
+
+```Java
+out.write(csq.subSequence(start, end).toString())
+```
+
+> ##### 버전
+> 자바 1.5 버전부터 지원합니다.
+{: .block-warning }
+
+> public CharArrayWriter append(char c)
+
+이 `CharArrayWriter`에 글자 `c`를 추가합니다. 이 메소드는 다음 코드와 똑같이 작동합니다.
+
+```Java
+out.write(c)
+```
+
+> ##### 버전
+> 자바 1.5 버전부터 지원합니다.
+{: .block-warning }
+
+##### `reset`
+> public void reset()
+
+이미 할당된 버퍼를 버리지 않고 재사용할 수 있도록 버퍼를 리셋합니다.
+
+##### `toCharArray`
+> public char[] toCharArray()
+
+입력된 데이터의 복사본을 반환합니다.
+
+##### `size`
+> public int size()
+
+버퍼의 현재 크기를 반환합니다.
+
+##### `toString`
+> public String toString()
+
+입력된 데이터를 문자열로 변환합니다.
+
+##### `flush`
+> public void flush()
+
+스트림을 비웁니다. `CharArrayWriter`의 `flush()` 메소드는 아무 일도 하지 않습니다.
+
+##### `close`
+> public void close()
+
+스트림을 닫습니다. 안의 내용물이 여전히 필요하기 때문에 버퍼를 해제하지 않습니다. 이 클래스에서 이 메소드를 실행하는 것은 아무런 작동도 하지 않습니다.
