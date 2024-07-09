@@ -2,6 +2,9 @@
 layout: home
 title: "About Author"
 ---
+
+새 프로젝트 담당을 맡아 당분간 업로드가 없을 예정입니다. 죄송합니다!
+
 ### [Advanced Technologies Academy](https://www.atech.org)
 - Computer Science
 - IT Network
@@ -37,3 +40,4 @@ title: "About Author"
 **2024.07.08**: JDK 21 버전 기술문서 작업중
 - `java.io.CharArrayReader` 추가
 - `java.io.CharArrayWriter` 추가
+
