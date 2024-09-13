@@ -5,6 +5,8 @@ parent: 양극성장애
 nav_order: 2
 ---
 
+출처: [WHO 팩트시트 - 양극성 장애](https://www.who.int/news-room/fact-sheets/detail/bipolar-disorder)
+
 # 주요 사항
 
 - 양극성 장애는 기분(mood), 에너지, 활동, 생각에 영향을 미치는 질병이며, 조증(혹은 경조증) 삽화와 우울증 삽화가 나타나는 특징을 지닙니다.
