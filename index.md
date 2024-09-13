@@ -1,35 +1,22 @@
 ---
-title: Home
+title: 안녕하세요!
 layout: home
 ---
 
-This is a *bare-minimum* template to create a Jekyll site that uses the [Just the Docs] theme. You can easily set the created site to be published on [GitHub Pages] – the [README] file explains how to do that, along with other details.
+본 사이트는 Beats(사업자)와는 개별적인 Beats(비영리법인)에 의해서 만들어진 사이트입니다.
 
-If [Jekyll] is installed on your computer, you can also build and preview the created site *locally*. This lets you test changes before committing them, and avoids waiting for GitHub Pages.[^1] And you will be able to deploy your local build to a different platform than GitHub Pages.
+# 정부기관 출처의 정보
 
-More specifically, the created site:
+공공누리의 제4유형 마크 - "출처표시, 상업적 이용 금지, 변경 금지” 조건에 따라 이용할 수 있는 정보를 바탕으로 이루어졌습니다.
 
-- uses a gem-based approach, i.e. uses a `Gemfile` and loads the `just-the-docs` gem
-- uses the [GitHub Pages / Actions workflow] to build and publish the site on GitHub Pages
+모든 게시글에는 출처 표시가 들어갈 것이며, 광고 등 상업적 이용에 활용되지 않을 것입니다. 또한 변경 금지 조항에 의해 게시글은 그대로 옮겨져서 사용될 것입니다. 따라서 링크를 타고 들어가면 정부 기관의 홈페이지에서 정확히 같은 내용을 확인하실 수 있습니다.
 
-Other than that, you're free to customize sites that you create with this template, however you like. You can easily change the versions of `just-the-docs` and Jekyll it uses, as well as adding further plugins.
+# WHO 등 외국 기관에서 나온 팩트시트
 
-[Browse our documentation][Just the Docs] to learn more about how to use this theme.
+개인의 번역에 의해 만들어졌습니다.
 
-To get started with creating a site, simply:
+모든 게시글에는 출처 표시가 들어갈 것이며, 광고 등 상업적 이용에 활용되지 않을 것입니다. 출처를 타고 들어가시면 영문으로 된 개별 게시글을 확인하실 수 있습니다.
 
-1. click "[use this template]" to create a GitHub repository
-2. go to Settings > Pages > Build and deployment > Source, and select GitHub Actions
+# 기타 기관 출처의 정보
 
-If you want to maintain your docs in the `docs` directory of an existing project repo, see [Hosting your docs from an existing project repo](https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md#hosting-your-docs-from-an-existing-project-repo) in the template README.
-
-----
-
-[^1]: [It can take up to 10 minutes for changes to your site to publish after you push the changes to GitHub](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll#creating-your-site).
-
-[Just the Docs]: https://just-the-docs.github.io/just-the-docs/
-[GitHub Pages]: https://docs.github.com/en/pages
-[README]: https://github.com/just-the-docs/just-the-docs-template/blob/main/README.md
-[Jekyll]: https://jekyllrb.com
-[GitHub Pages / Actions workflow]: https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/
-[use this template]: https://github.com/just-the-docs/just-the-docs-template/generate
+필요에 따라 논문, 학회지 등이 보조적인 자료로 사용 될 것입니다. 출처 표시가 들어갈 것이며, 원저자의 허락과 감수을 받고 게시될 것입니다. 상업적 이용에 활용되지 않을 것입니다. 저작권이 본저자에게 있는 게시글이기 때문에, 설령 출처 표기를 하더라도 다른 곳(개인 블로그 등)에서 이용하시면 안 됩니다.
