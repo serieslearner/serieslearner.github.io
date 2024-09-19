@@ -1,5 +1,5 @@
 ---
-title: 양극성장애
+title: 조현병
 layout: default
 parent: 팩트시트
 ---

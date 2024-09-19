@@ -3,3 +3,13 @@ description: 대한민국 정부 및 각 기관 부처 홈페이지, 지역의 �
 theme: just-the-docs
 
 url: https://serieslearner.github.io
+
+callouts:
+  red-callout:
+    title: 미리 휴대폰에 저장해 두세요
+    color: red
+  yellow-callout:
+    color: yellow
+  green-callout:
+    title: 업데이트 일자 2024.09.19
+    color: green

@@ -1,5 +1,5 @@
 ---
-title: 양극성장애
+title: 조기정신증
 layout: default
 parent: 팩트시트
 ---
