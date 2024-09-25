@@ -1,5 +1,0 @@
----
-title: 양극성장애
-layout: default
-parent: 팩트시트
----
